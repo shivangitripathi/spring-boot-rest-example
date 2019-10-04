@@ -1,0 +1,25 @@
+pipeline {
+
+   agent any
+        stage("git pull"){
+           steps{
+               script{
+                   git branch: "master", changelog: false, url: "https://github.com/shivangitripathi/spring-boot-rest-example.git"
+               }
+           }
+       }
+       stage("maven"){
+           steps{
+               script{
+                   withMaven (maven: "mavenTool")
+                   {
+                   sh(
+                        script:"""
+                            mvn clean package
+                   """)
+                   }
+               }
+           }
+       }
+   }
+}
